@@ -1,0 +1,50 @@
+publishers:
+- type: https
+  url: https://netconfapp.azurewebsites.net/api/gravar?clientId=00000&itemId=1
+  method: POST
+  headers:
+    content-type: application/json
+  onMessageReceived:
+    assertions:
+    -   name: Status Code
+        expect: statusCode
+        toBeEqualTo: 401
+- type: https
+  url: https://netconfapp.azurewebsites.net/api/gravar?clientId=01234
+  method: POST
+  headers:
+    content-type: application/json
+    x-functions-key: 7UBXnA3w1XmddHqXWy3MdmlDLXpcTBa09a6z0PhMMk1akviNYqx/6Q==
+  onMessageReceived:
+    assertions:
+    -   name: Status Code
+        expect: statusCode
+        toBeEqualTo: 400
+    -   name: Body
+        expect: body
+        toBeEqualTo: `Por favor infome o clientId e o itemId`
+- type: https
+  url: https://netconfapp.azurewebsites.net/api/gravar?itemId=01234
+  method: POST
+  headers:
+    content-type: application/json
+    x-functions-key: 7UBXnA3w1XmddHqXWy3MdmlDLXpcTBa09a6z0PhMMk1akviNYqx/6Q==
+  onMessageReceived:
+    assertions:
+    -   name: Status Code
+        expect: statusCode
+        toBeEqualTo: 400
+    -   name: Body
+        expect: body
+        toBeEqualTo: `Por favor infome o clientId e o itemId`
+- type: https
+  url: https://netconfapp.azurewebsites.net/api/gravar?itemId=01234&clientId=00000
+  method: POST
+  headers:
+    content-type: application/json
+    x-functions-key: 7UBXnA3w1XmddHqXWy3MdmlDLXpcTBa09a6z0PhMMk1akviNYqx/6Q==
+  onMessageReceived:
+    assertions:
+    -   name: Status Code
+        expect: statusCode
+        toBeEqualTo: 200

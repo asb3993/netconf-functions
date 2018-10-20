@@ -1,0 +1,37 @@
+publishers:
+- type: https
+  url: https://netconfapp.azurewebsites.net/api/obter?clientId=01234
+  method: GET
+  headers:
+    content-type: application/json
+  onMessageReceived:
+    assertions:
+    -   name: Status Code
+        expect: statusCode
+        toBeEqualTo: 404
+    -   name: Body
+        expect: body
+        toBeEqualTo: `Carrinho não encontrado.`
+- type: https
+  url: https://netconfapp.azurewebsites.net/api/obter
+  method: GET
+  headers:
+    content-type: application/json
+  onMessageReceived:
+    assertions:
+    -   name: Status Code
+        expect: statusCode
+        toBeEqualTo: 400
+    -   name: Body
+        expect: body
+        toBeEqualTo: `Por favor informe o clientId.`
+- type: https
+  url: https://netconfapp.azurewebsites.net/api/obter?clientId=12345
+  method: GET
+  headers:
+    content-type: application/json
+  onMessageReceived:
+    assertions:
+    -   name: Status Code
+        expect: statusCode
+        toBeEqualTo: 200
